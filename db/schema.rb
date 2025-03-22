@@ -34,8 +34,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_23_121027) do
 
   create_table "wallets", force: :cascade do |t|
     t.integer "user_id"
-    t.decimal "available_balance"
-    t.decimal "actual_balance"
+    t.string "wallet_type"
+    t.decimal "available_balance", default: "0.0"
+    t.decimal "actual_balance", default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

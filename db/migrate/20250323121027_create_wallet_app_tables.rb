@@ -10,8 +10,9 @@ class CreateWalletAppTables < ActiveRecord::Migration[7.1]
 
     create_table :wallets do |t|
       t.integer :user_id
-      t.decimal :available_balance
-      t.decimal :actual_balance
+      t.string  :wallet_type
+      t.decimal :available_balance, default: 0.0
+      t.decimal :actual_balance, default: 0.0
 
       t.timestamps
     end
