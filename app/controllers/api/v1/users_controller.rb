@@ -1,11 +1,20 @@
 class Api::V1::UsersController < ApplicationController
   before_action :permitted_params
   before_action :initialize_user
-  before_action :validate_amount, only: [:deposit_money]
+  before_action :validate_amount, only: [:deposit_money, :withdraw_money]
   def deposit_money
-    transaction = @user.deposit_money(amount: permitted_params[:amount].to_f)
+    transaction = @user.deposit_money(amount: @amount)
     api_response = ApiResponse.new(
       transaction_type: 'deposit', transaction: transaction, balance: @user.available_balance
+    )
+
+    render json: api_response.response_message
+  end
+
+  def withdraw_money
+    transaction = @user.withdraw_money(amount: @amount)
+    api_response = ApiResponse.new(
+      transaction_type: 'withdraw', transaction: transaction, balance: @user.available_balance
     )
 
     render json: api_response.response_message
@@ -35,6 +44,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def validate_amount
-    return invalid_input if permitted_params[:amount].to_f <= 0
+    @amount = permitted_params[:amount].to_f
+    return invalid_input if !@amount.positive?
   end
 end

@@ -14,6 +14,10 @@ class User < ApplicationRecord
     wallet.deposit(amount: amount, sender: self.id)
   end
 
+  def withdraw_money(amount:)
+    wallet.withdraw(amount: amount, sender: self.id)
+  end
+
   private
   def setup_wallet
     create_wallet(wallet_type: DEFAULT_WALLET_TYPE)
