@@ -9,6 +9,7 @@ class Api::V1::UsersController < ApplicationController
     'withdraw_money' => [:user_id, :amount],
     'transfer_money' => [:user_id, :amount, :receiver_id],
     'wallet_balance' => [:user_id],
+    'wallet_history' => [:user_id],
   }
   def deposit_money
     transaction = @user.deposit_money(amount: @amount)
@@ -41,6 +42,11 @@ class Api::V1::UsersController < ApplicationController
 
   def wallet_balance
     render json: "Wallet available balance is $#{@user.available_balance}"
+  end
+
+  def wallet_history
+    transactions = @user.wallet.transactions.order('created_at ASC')
+    render json: TransactionSerializer.new(transactions).serializable_hash.to_json
   end
 
   def not_found(error_message: 'User not found')
