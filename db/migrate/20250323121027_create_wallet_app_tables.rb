@@ -21,6 +21,7 @@ class CreateWalletAppTables < ActiveRecord::Migration[7.1]
       t.integer :wallet_id
       t.string  :transaction_type
       t.integer :sender_id
+      t.integer :receiver_id
       t.decimal :amount
       t.string  :status, default: 'pending'
 
