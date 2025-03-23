@@ -11,11 +11,15 @@ class User < ApplicationRecord
   DEFAULT_WALLET_TYPE = 'credit_card'.freeze
 
   def deposit_money(amount:)
-    wallet.deposit(amount: amount, sender: self.id)
+    wallet.deposit(amount: amount, sender_id: self.id)
   end
 
-  def withdraw_money(amount:)
-    wallet.withdraw(amount: amount, sender: self.id)
+  def withdraw_money!(amount:)
+    wallet.withdraw(amount: amount, sender_id: self.id)
+  end
+
+  def transfer_money(amount:, receiver:)
+    wallet.transfer_money(amount: amount, sender_id: self.id, receiver: receiver)
   end
 
   private

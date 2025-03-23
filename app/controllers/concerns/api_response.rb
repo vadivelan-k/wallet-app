@@ -12,6 +12,8 @@ class ApiResponse
                 deposit_message
               elsif @transaction_type == 'withdraw'
                 withdraw_message
+              elsif @transaction_type == 'transfer'
+                transfer_message
               end
 
     [message, account_balance].join(EMPTY_SPACE)
@@ -23,6 +25,10 @@ class ApiResponse
 
   def withdraw_message
     "Successfully withdrawn money $#{@transaction.amount} from your account."
+  end
+
+  def transfer_message
+    "Successfully transferred money $#{@transaction.amount} from your account to recipient."
   end
 
   def account_balance
