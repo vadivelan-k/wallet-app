@@ -6,7 +6,13 @@ class User < ApplicationRecord
 
   after_create  :setup_wallet
 
+  delegate  :available_balance, to: :wallet
+
   DEFAULT_WALLET_TYPE = 'credit_card'.freeze
+
+  def deposit_money(amount:)
+    wallet.deposit(amount: amount, sender: self.id)
+  end
 
   private
   def setup_wallet

@@ -7,4 +7,16 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  resource :api do
+    resource :v1 do
+      resources :users, controller: 'api/v1/users', only: [] do
+        post  :deposit_money
+        post  :withdraw_money
+        post  :transfer_money
+        get   :wallet_balance
+        get   :wallet_history
+      end
+    end
+  end
 end
