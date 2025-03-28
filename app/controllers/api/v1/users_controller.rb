@@ -45,7 +45,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def wallet_history
-    transactions = @user.wallet.transactions.order('created_at ASC')
+    transactions = @user.wallet.transactions
     render json: TransactionSerializer.new(transactions).serializable_hash.to_json
   end
 

@@ -1,5 +1,5 @@
 class Wallet < ApplicationRecord
-  has_many :transactions
+  has_many :transactions, -> { order('created_at ASC') }
   belongs_to :user
 
   DEFAULT_WALLET_TYPE = 'credit_card'.freeze
