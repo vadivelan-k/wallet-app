@@ -8,7 +8,20 @@ RSpec.shared_examples 'block invalid user' do |action, user_id|
   end
 end
 
+RSpec.shared_examples 'block request without valid authorization' do |action|
+  let(:auth) { 'invalid' }
+
+  it do
+    get action, params: { user_id: 0 }
+
+    expect(response).to have_http_status(403)
+  end
+end
+
 RSpec.describe Api::V1::UsersController, type: :controller do
+  let(:auth) { Date.today.strftime('%Y-%m-%d') }
+  before { request.headers['AUTHORIZATION'] = auth }
+
   describe 'get#wallet_balance' do
     let(:user) { create(:user) }
 
@@ -20,6 +33,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     it_behaves_like 'block invalid user', :wallet_balance, 0
+    it_behaves_like 'block request without valid authorization', :wallet_balance
   end
 
   describe 'post#deposit_money' do
@@ -35,6 +49,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     it_behaves_like 'block invalid user', :deposit_money, 0
+    it_behaves_like 'block request without valid authorization', :deposit_money
   end
 
   describe 'post#withdraw_money' do
@@ -52,6 +67,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     it_behaves_like 'block invalid user', :withdraw_money, 0
+    it_behaves_like 'block request without valid authorization', :withdraw_money
   end
 
   describe 'post#transfer_money' do
@@ -69,6 +85,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     it_behaves_like 'block invalid user', :transfer_money, 0
+    it_behaves_like 'block request without valid authorization', :transfer_money
   end
 
   describe 'get#wallet_history' do
@@ -87,5 +104,6 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     it_behaves_like 'block invalid user', :wallet_history, 0
+    it_behaves_like 'block request without valid authorization', :wallet_history
   end
 end
