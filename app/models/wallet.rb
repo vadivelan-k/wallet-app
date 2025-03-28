@@ -2,6 +2,8 @@ class Wallet < ApplicationRecord
   has_many :transactions
   belongs_to :user
 
+  DEFAULT_WALLET_TYPE = 'credit_card'.freeze
+
   validates_presence_of :wallet_type
 
   def deposit(amount:, perform_by_id:, receiver_id: nil)

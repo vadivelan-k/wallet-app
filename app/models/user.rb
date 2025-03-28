@@ -8,8 +8,6 @@ class User < ApplicationRecord
 
   delegate  :available_balance, to: :wallet
 
-  DEFAULT_WALLET_TYPE = 'credit_card'.freeze
-
   def deposit_money(amount:)
     wallet.deposit(amount: amount, perform_by_id: self.id)
   end
@@ -24,6 +22,6 @@ class User < ApplicationRecord
 
   private
   def setup_wallet
-    create_wallet(wallet_type: DEFAULT_WALLET_TYPE)
+    create_wallet(wallet_type: Wallet::DEFAULT_WALLET_TYPE)
   end
 end
