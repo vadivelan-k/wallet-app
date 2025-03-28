@@ -17,7 +17,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_23_121027) do
   create_table "transactions", force: :cascade do |t|
     t.integer "wallet_id"
     t.string "transaction_type"
-    t.integer "sender_id"
+    t.integer "perform_by_id"
     t.integer "receiver_id"
     t.decimal "amount"
     t.string "status", default: "pending"
